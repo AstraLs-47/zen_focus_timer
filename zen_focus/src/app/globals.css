@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
+  --font-mono: var(--font-mono), ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #FAF8F5;
+  color: #1c1917;
+  font-family: var(--font-sans);
+}
+
+.font-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* ── Fraunces Serif Italic Timer Digits ── */
+.timer-display {
+  font-family: var(--font-serif), Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  font-variation-settings: 'WONK' 1, 'opsz' 144, 'SOFT' 0;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-feature-settings: 'calt' 1, 'liga' 1;
+}
+
+/* ── Glass card effect ── */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(231, 229, 228, 0.8);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ── Tree Soundbars graphic ── */
+.tree-bars {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 12px;
+  padding-bottom: 24px;
+  pointer-events: none;
+}
+
+.tree-bar {
+  width: 14px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  transition: height 0.5s ease;
+}
+
+/* ── Animate in ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.4s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease forwards;
+}
+
+/* ── Hide Next.js Dev Indicator & Overlay ── */
+nextjs-portal,
+[data-nextjs-toast],
+#next-indicator,
+div[class*="nextjs-toast"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
