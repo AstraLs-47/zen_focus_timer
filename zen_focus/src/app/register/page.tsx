@@ -61,16 +61,6 @@ export default function RegisterPage() {
       return
     }
 
-    if (authData?.user) {
-      try {
-        await supabase.from('profiles').upsert({
-          user_id: authData.user.id,
-          name: trimmedName,
-        })
-      } catch {
-        // Handled by database trigger
-      }
-    }
 
     if (authData?.user && !authData?.session) {
       setSuccess('Account created! If email confirmation is enabled on your Supabase project, please verify your email before signing in.')
