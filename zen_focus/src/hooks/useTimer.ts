@@ -41,7 +41,7 @@ export function useTimer(
 
   const [remainingSeconds, setRemainingSeconds] = useState<number>(() => {
     if (!session) return 0
-    return session.plannedDuration
+    return getRemainingSeconds(session)
   })
 
   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0)
@@ -54,7 +54,6 @@ export function useTimer(
   const rafRef = useRef<number | null>(null)
   const phaseRef = useRef<TimerPhase>(phase)
   const dbSavedRef = useRef<boolean>(false)
-  const initialSyncedRef = useRef<boolean>(false)
 
   useEffect(() => { phaseRef.current = phase }, [phase])
   useEffect(() => { sessionRef.current = session }, [session])
@@ -69,14 +68,6 @@ export function useTimer(
       const s = sessionRef.current
       if (!s) return
 
-      if (!initialSyncedRef.current) {
-        initialSyncedRef.current = true
-        if (s.status === 'focusing' && (Date.now() - s.startedAt < 15000)) {
-          s.startedAt = Date.now()
-          saveActiveSession(s)
-        }
-      }
-
       const currentPhase = phaseRef.current
 
       if (currentPhase === 'focusing') {
@@ -88,7 +79,7 @@ export function useTimer(
         if (remaining <= 0) {
           if (!dbSavedRef.current) {
             dbSavedRef.current = true
-            completeDbSession(s.id, s.plannedDuration, s.pausedDuration)
+            completeDbSession(s.id, elapsed || s.plannedDuration, s.pausedDuration)
           }
 
           if (s.breakDuration > 0) {

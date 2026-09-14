@@ -20,23 +20,25 @@ export default function SettingsClient({ profile, email }: Props) {
   const [saved, setSaved] = useState(false)
   const [loggingOut, setLoggingOut] = useState(false)
 
-  async function handleSave(e: React.FormEvent) {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
     setSaved(false)
 
-    await supabase
-      .from('profiles')
-      .update({ name: name.trim() })
-      .eq('user_id', profile.user_id)
+    try {
+      await supabase
+        .from('profiles')
+        .upsert({ user_id: profile.user_id, name: name.trim() }, { onConflict: 'user_id' })
 
-    setSaving(false)
-    setSaved(true)
-    router.refresh()
-    setTimeout(() => setSaved(false), 3000)
+      setSaved(true)
+      router.refresh()
+      setTimeout(() => setSaved(false), 3000)
+    } finally {
+      setSaving(false)
+    }
   }
 
-  async function handleLogout() {
+  const handleLogout = async () => {
     setLoggingOut(true)
     await supabase.auth.signOut()
     router.push('/login')
@@ -45,7 +47,7 @@ export default function SettingsClient({ profile, email }: Props) {
   return (
     <div className="min-h-screen bg-[#FAF8F5] pb-28 pt-8 md:pt-12 px-4 sm:px-6">
       <div className="max-w-2xl mx-auto space-y-6">
-        
+
         {/* Page Header */}
         <div>
           <h1 className="text-2xl sm:text-3xl font-serif text-stone-900 tracking-tight">
@@ -57,7 +59,7 @@ export default function SettingsClient({ profile, email }: Props) {
         </div>
 
         <form onSubmit={handleSave} className="space-y-5">
-          
+
           {/* Profile Section */}
           <section className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/60 shadow-xs">
             <div className="flex items-center gap-2 mb-5 pb-3 border-b border-stone-100">
@@ -112,6 +114,7 @@ export default function SettingsClient({ profile, email }: Props) {
           </div>
           <button
             id="logout-btn"
+            type="button"
             onClick={handleLogout}
             disabled={loggingOut}
             className="flex items-center gap-1.5 bg-[#FAF8F5] hover:bg-red-50 text-stone-600 hover:text-red-600 border border-stone-200 hover:border-red-200 px-4 py-2 rounded-full text-xs font-medium transition-all cursor-pointer"

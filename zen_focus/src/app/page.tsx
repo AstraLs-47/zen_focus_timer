@@ -59,7 +59,7 @@ export default async function LandingPage() {
           className="text-stone-200/90 text-sm sm:text-base md:text-lg mb-10 max-w-xl mx-auto leading-relaxed animate-fade-up font-light"
           style={{ animationDelay: '0.1s' }}
         >
-          Your personal sanctuary for deep work. Set custom focus timers, enjoy soothing natural soundscapes & backgrounds, and build an intentional daily habit.
+          Your personal sanctuary for deep work. Set custom focus timers, enjoy soothing natural backgrounds, and build an intentional daily habit.
         </p>
 
         <div
@@ -102,13 +102,13 @@ export default async function LandingPage() {
           </div>
           <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-white">
             <Compass size={18} className="text-[#C4DEC9] mb-2" />
-            <h3 className="text-xs font-semibold text-white mb-1">21 Calming Themes</h3>
-            <p className="text-[11px] text-stone-300 leading-normal">Immerse yourself in high-res nature backdrops and soothing ambient sounds.</p>
+            <h3 className="text-xs font-semibold text-white mb-1">Calming Themes</h3>
+            <p className="text-[11px] text-stone-300 leading-normal">Explore high-res nature backdrops that help you create a peaceful space for focused work.</p>
           </div>
           <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-white">
             <ShieldCheck size={18} className="text-[#C4DEC9] mb-2" />
             <h3 className="text-xs font-semibold text-white mb-1">Habit Tracking</h3>
-            <p className="text-[11px] text-stone-300 leading-normal">Track daily streaks, completion rates, and historical statistics.</p>
+            <p className="text-[11px] text-stone-300 leading-normal">Track daily streaks, and historical statistics.</p>
           </div>
         </div>
       </main>
