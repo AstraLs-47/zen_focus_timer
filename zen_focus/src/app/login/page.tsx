@@ -21,11 +21,25 @@ export default function LoginPage() {
     setLoading(true)
     setError(null)
 
+    // Clear any stale / orphaned session (e.g. from a deleted account)
+    // before attempting a fresh sign-in.
+    try { await supabase.auth.signOut() } catch { /* ignore */ }
+
     const normalizedEmail = email.trim().toLowerCase()
     const { error } = await supabase.auth.signInWithPassword({ email: normalizedEmail, password })
 
     if (error) {
-      setError(error.message)
+      // Avoid leaking technical error details to the user
+      const msg = error.message?.toLowerCase() ?? ''
+      if (msg.includes('invalid login') || msg.includes('invalid credentials') || msg.includes('wrong password')) {
+        setError('Incorrect email or password. Please try again.')
+      } else if (msg.includes('email not confirmed')) {
+        setError('Please confirm your email before signing in. Check your inbox for a link from ZEN.')
+      } else if (msg.includes('user not found') || msg.includes('no user found')) {
+        setError('No account found with this email. Please sign up first.')
+      } else {
+        setError('Sign in failed. Please try again.')
+      }
       setLoading(false)
     } else {
       router.push('/dashboard')

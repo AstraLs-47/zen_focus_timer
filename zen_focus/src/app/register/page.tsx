@@ -28,6 +28,9 @@ export default function RegisterPage() {
     const trimmedName = name.trim()
     const firstName = trimmedName.split(/\s+/)[0] || trimmedName
 
+
+    try { await supabase.auth.signOut() } catch { /* ignore */ }
+
     const { data: authData, error: signUpError } = await supabase.auth.signUp({
       email: normalizedEmail,
       password,
@@ -63,7 +66,7 @@ export default function RegisterPage() {
 
 
     if (authData?.user && !authData?.session) {
-      setSuccess('Account created! If email confirmation is enabled on your Supabase project, please verify your email before signing in.')
+      setSuccess('Account created! Check your inbox for a confirmation email from ZEN and click the link to activate your account.')
       setLoading(false)
       return
     }

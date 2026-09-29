@@ -1,35 +1,20 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { Home, Clock, BarChart2, Settings, LogOut } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
-import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { Home, Clock, BarChart2, Settings, LogOut, CheckSquare } from 'lucide-react'
 import ZenLogo from '@/components/ui/ZenLogo'
 
 const navItems = [
-  { href: '/dashboard', icon: Home,     label: 'Home' },
-  { href: '/focus',     icon: Clock,    label: 'Focus' },
-  { href: '/stats',     icon: BarChart2, label: 'Stats' },
-  { href: '/settings',  icon: Settings, label: 'Settings' },
+  { href: '/dashboard', icon: Home,         label: 'Home' },
+  { href: '/focus',     icon: Clock,        label: 'Focus' },
+  { href: '/todos',     icon: CheckSquare,  label: 'Tasks' },
+  { href: '/stats',     icon: BarChart2,    label: 'Stats' },
+  { href: '/settings',  icon: Settings,     label: 'Settings' },
 ]
 
 export default function AppNav() {
   const pathname = usePathname()
-  const router = useRouter()
-  const [loggingOut, setLoggingOut] = useState(false)
-  const supabase = createClient()
-
-  async function handleSignOut() {
-    try {
-      setLoggingOut(true)
-      await supabase.auth.signOut()
-      router.push('/login')
-      router.refresh()
-    } catch {
-      setLoggingOut(false)
-    }
-  }
 
   return (
     <>
@@ -66,17 +51,16 @@ export default function AppNav() {
           })}
         </div>
 
-        <button
-          onClick={handleSignOut}
-          disabled={loggingOut}
+        <Link
+          href="/auth/signout"
           title="Sign Out"
-          className="group relative flex items-center justify-center w-11 h-11 rounded-2xl text-stone-400 hover:text-red-600 hover:bg-red-50 transition-all duration-200 cursor-pointer disabled:opacity-50"
+          className="group relative flex items-center justify-center w-11 h-11 rounded-2xl text-stone-400 hover:text-red-600 hover:bg-red-50 transition-all duration-200"
         >
           <LogOut size={18} strokeWidth={1.8} />
           <span className="absolute left-14 px-2.5 py-1 bg-stone-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-md z-50">
             Sign Out
           </span>
-        </button>
+        </Link>
       </nav>
 
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-stone-200/80">

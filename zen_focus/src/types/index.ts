@@ -76,14 +76,54 @@ export interface Database {
           created_at?: string
         }
       }
+      todos: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          description: string | null
+          status: 'todo' | 'in_progress' | 'done'
+          priority: 'low' | 'medium' | 'high'
+          due_date: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title: string
+          description?: string | null
+          status?: 'todo' | 'in_progress' | 'done'
+          priority?: 'low' | 'medium' | 'high'
+          due_date?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          title?: string
+          description?: string | null
+          status?: 'todo' | 'in_progress' | 'done'
+          priority?: 'low' | 'medium' | 'high'
+          due_date?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
   }
 }
 
 export type Profile = Database['public']['Tables']['profiles']['Row']
 export type FocusSession = Database['public']['Tables']['focus_sessions']['Row']
+export type Todo = Database['public']['Tables']['todos']['Row']
+export type TodoInsert = Database['public']['Tables']['todos']['Insert']
+export type TodoUpdate = Database['public']['Tables']['todos']['Update']
 
 export type SessionStatus = FocusSession['status']
+export type TodoStatus   = Todo['status']
+export type TodoPriority = Todo['priority']
 
 export interface Background {
   id: string
